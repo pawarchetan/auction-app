@@ -4,7 +4,6 @@ import com.deepintent.auction.domain.Product;
 import com.deepintent.auction.dto.ProductDto;
 import com.deepintent.auction.repository.ProductRepository;
 import com.deepintent.auction.repository.TestData;
-import com.deepintent.auction.service.impl.ProductServiceImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -65,7 +64,7 @@ public class ProductServiceTest {
 
     @Test
     public void shouldDeleteProductById() {
-        doNothing().when(productRepository).deleteById("test-id");
-        productService.deleteProduct("test-id");
+        doNothing().when(productRepository).deleteById("id");
+        productService.deleteProduct("id");
     }
 }

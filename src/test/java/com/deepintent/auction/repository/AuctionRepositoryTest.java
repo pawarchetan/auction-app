@@ -1,7 +1,6 @@
 package com.deepintent.auction.repository;
 
 import com.deepintent.auction.domain.Auction;
-import com.deepintent.auction.domain.Product;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,7 +10,6 @@ import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,7 +23,6 @@ import static org.junit.Assert.assertNotNull;
 public class AuctionRepositoryTest {
 
     private Auction auction;
-    private Product product;
 
     @Autowired
     private AuctionRepository auctionRepository;
@@ -48,7 +45,7 @@ public class AuctionRepositoryTest {
     public void shouldCreateAuction() {
         assertNotNull(auction);
         assertNotNull(auction.getId());
-        assertEquals(product, auction.getProduct());
+        assertNotNull(auction.getProduct());
         assertEquals(CREATED, auction.getStatus());
         assertEquals(BigDecimal.valueOf(5000.00), auction.getStartingPrice());
     }
@@ -80,17 +77,8 @@ public class AuctionRepositoryTest {
     }
 
     private Auction persistAuction() {
-        Auction auction = new Auction();
-        auction.setProduct(getProduct());
-        auction.setStartTime(LocalDate.now());
-        auction.setEndTime(LocalDate.now().plusDays(1));
-        auction.setStartingPrice(BigDecimal.valueOf(5000.00));
-        auction.setStatus(CREATED);
+        Auction auction = TestData.createAuction(productRepository, auctionRepository);
         return auctionRepository.save(auction);
     }
 
-    public  Product getProduct() {
-        product = TestData.createProduct(productRepository);
-        return product;
-    }
 }

@@ -3,6 +3,7 @@ package com.deepintent.auction.repository;
 import com.deepintent.auction.domain.Auction;
 import com.deepintent.auction.domain.Bidder;
 import com.deepintent.auction.domain.Product;
+import com.deepintent.auction.dto.AuctionDto;
 import com.deepintent.auction.dto.BidderDto;
 import com.deepintent.auction.dto.ProductDto;
 
@@ -35,13 +36,14 @@ public class TestData {
     }
 
     public static Auction createAuction(ProductRepository productRepository, AuctionRepository auctionRepository) {
-        Auction auction = new Auction();
         Product product = createProduct(productRepository);
-        auction.setProduct(product);
-        auction.setStartTime(LocalDate.now());
-        auction.setEndTime(LocalDate.now().plusDays(1));
-        auction.setStartingPrice(BigDecimal.valueOf(5000.00));
-        auction.setStatus(CREATED);
+        Auction auction = Auction.builder()
+                .product(product)
+                .startTime(LocalDate.now())
+                .endTime(LocalDate.now().plusDays(1))
+                .startingPrice(BigDecimal.valueOf(5000.00))
+                .status(CREATED)
+                .build();
         return auctionRepository.save(auction);
     }
 
@@ -87,5 +89,33 @@ public class TestData {
         List<Bidder> bidders = new ArrayList<>();
         bidders.add(createDummyBidder());
         return bidders;
+    }
+
+    public static AuctionDto getAuctionDto() {
+        return AuctionDto.builder()
+                .id("id")
+                .startTime(LocalDate.now())
+                .endTime(LocalDate.now().plusDays(1))
+                .product(getProductDto())
+                .startingPrice(BigDecimal.valueOf(5000.00))
+                .status(CREATED)
+                .build();
+    }
+
+    public static Auction createDummyAuction() {
+        return Auction.builder()
+                .id("id")
+                .startTime(LocalDate.now())
+                .endTime(LocalDate.now().plusDays(1))
+                .product(createDummyProduct())
+                .startingPrice(BigDecimal.valueOf(5000.00))
+                .status(CREATED)
+                .build();
+    }
+
+    public static List<Auction> getAllAuctions() {
+        List<Auction> auctions = new ArrayList<>();
+        auctions.add(createDummyAuction());
+        return auctions;
     }
 }

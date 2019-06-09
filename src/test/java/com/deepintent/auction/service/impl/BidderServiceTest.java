@@ -66,7 +66,7 @@ public class BidderServiceTest {
     @Test
     public void shouldDeleteProductById() {
         doNothing().when(bidderRepository).deleteById("id");
-        bidderService.deleteBidder("test-id");
+        bidderService.deleteBidder("id");
     }
 
 }
