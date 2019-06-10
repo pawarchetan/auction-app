@@ -41,7 +41,7 @@ public class BidRepositoryTest {
 
     @Before
     public void setUp() {
-        bid = persistBid();
+        bid = persistBid(BigDecimal.valueOf(3000.00));
     }
 
     @After
@@ -71,7 +71,7 @@ public class BidRepositoryTest {
 
     @Test
     public void shouldReturnAllBidsForUser() {
-        persistBid();
+        persistBid(BigDecimal.valueOf(3000.00));
         List<Bid> bids = bidRepository.findByBidderId(bidder.getId());
 
         assertEquals(2, bids.size());
@@ -79,7 +79,7 @@ public class BidRepositoryTest {
 
     @Test
     public void shouldReturnAllBidsForAuction() {
-        persistBid();
+        persistBid(BigDecimal.valueOf(3000.00));
         List<Bid> bids = bidRepository.findByAuctionId(auction.getId());
 
         assertEquals(2, bids.size());
@@ -87,12 +87,11 @@ public class BidRepositoryTest {
 
     @Test
     public void shouldReturnAllBidsForUserAndAuction() {
-        persistBid();
+        persistBid(BigDecimal.valueOf(3000.00));
         List<Bid> bids = bidRepository.findByAuctionIdAndBidderId(auction.getId(), bidder.getId());
 
         assertEquals(2, bids.size());
     }
-
 
     @Test
     public void shouldUpdateBid() {
@@ -112,14 +111,25 @@ public class BidRepositoryTest {
         assertFalse(deletedBid.isPresent());
     }
 
-    private Bid persistBid() {
+    @Test
+    public void shouldReturnHighestBidAmount() {
+        persistBid(BigDecimal.valueOf(4000.00));
+        persistBid(BigDecimal.valueOf(3000.00));
+
+        Bid bid = bidRepository.findFirstByAuctionIdOrderByAmountDesc("id");
+
+        assertNotNull(bid);
+        assertEquals(BigDecimal.valueOf(4000.00), bid.getAmount());
+    }
+
+    private Bid persistBid(BigDecimal amount) {
         auction = TestData.createAuction(productRepository, auctionRepository);
         bidder = TestData.createBidder(bidderRepository);
         Bid bid = Bid.builder()
                 .auctionId(auction.getId())
                 .bidderId(bidder.getId())
                 .date("2018-09-16")
-                .amount(BigDecimal.valueOf(3000.00))
+                .amount(amount)
                 .build();
         return bidRepository.save(bid);
     }

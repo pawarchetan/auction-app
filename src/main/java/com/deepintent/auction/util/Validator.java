@@ -23,16 +23,11 @@ public class Validator {
     private AuctionRepository auctionRepository;
     private BidRepository bidRepository;
 
+    @Autowired
     public Validator(BidderRepository bidderRepository, AuctionRepository auctionRepository, BidRepository bidRepository) {
         this.bidderRepository = bidderRepository;
         this.auctionRepository = auctionRepository;
         this.bidRepository = bidRepository;
-    }
-
-    @Autowired
-    public Validator(BidderRepository bidderRepository, AuctionRepository auctionRepository) {
-        this.bidderRepository = bidderRepository;
-        this.auctionRepository = auctionRepository;
     }
 
     public void validateIsBidderExist(String bidderId) {

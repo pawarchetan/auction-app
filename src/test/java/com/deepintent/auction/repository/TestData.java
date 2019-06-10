@@ -62,7 +62,7 @@ public class TestData {
                 .id("id")
                 .auctionId("id")
                 .bidderId("id")
-                .amount(BigDecimal.valueOf(200.00))
+                .amount(BigDecimal.valueOf(2000.00))
                 .build();
     }
 
@@ -72,7 +72,7 @@ public class TestData {
         return Product.builder()
                 .id("id")
                 .name("House")
-                .price(BigDecimal.valueOf(200.00))
+                .price(BigDecimal.valueOf(2000.00))
                 .build();
     }
 
@@ -89,7 +89,7 @@ public class TestData {
                 .id("id")
                 .auctionId("id")
                 .bidderId("id")
-                .amount(BigDecimal.valueOf(200.00))
+                .amount(BigDecimal.valueOf(2000.00))
                 .date("2018-09-16")
                 .build();
     }
