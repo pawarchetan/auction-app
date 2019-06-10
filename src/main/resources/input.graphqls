@@ -1,0 +1,13 @@
+input BidderDto {
+    id: String!
+    firstName: String!
+    lastName: String!
+}
+
+input ProductDto {
+    id: String!
+    name: String!
+    description: String!
+    address: String!
+    price: Float!
+}

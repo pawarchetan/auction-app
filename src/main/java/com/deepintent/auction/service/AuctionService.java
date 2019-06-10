@@ -13,5 +13,5 @@ public interface AuctionService {
 
     Auction updateAuction(AuctionDto auctionDto);
 
-    void deleteAuction(String id);
+    Boolean deleteAuction(String id);
 }

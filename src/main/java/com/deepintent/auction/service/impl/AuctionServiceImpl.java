@@ -54,8 +54,9 @@ public class AuctionServiceImpl implements AuctionService {
     }
 
     @Override
-    public void deleteAuction(String id) {
+    public Boolean deleteAuction(String id) {
         auctionRepository.deleteById(id);
+        return true;
     }
 
 }

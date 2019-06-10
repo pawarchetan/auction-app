@@ -1,9 +1,9 @@
-package com.deepintent.auction.service.impl;
+package com.deepintent.auction.graphql;
 
 import com.deepintent.auction.domain.Product;
 import com.deepintent.auction.dto.ProductDto;
-import com.deepintent.auction.repository.ProductRepository;
 import com.deepintent.auction.repository.TestData;
+import com.deepintent.auction.service.ProductService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -16,57 +16,55 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
-public class ProductServiceTest {
+public class ProductResolverTest {
 
     @InjectMocks
-    private ProductServiceImpl productService;
+    private ProductResolver productResolver;
 
     @Mock
-    private ProductRepository productRepository;
+    private ProductService productService;
 
     @Test
-    public void shouldCreateProduct() {
+    public void shouldResolveAndCallCreateProductService() {
         ProductDto productDto = TestData.getProductDto();
         Product dummyProduct = TestData.createDummyProduct();
-        when(productRepository.save(any())).thenReturn(dummyProduct);
+        when(productService.createProduct(any())).thenReturn(dummyProduct);
 
-        Product product = productService.createProduct(productDto);
-
+        Product product = productResolver.createProduct(productDto);
         assertNotNull(product);
         assertEquals(dummyProduct, product);
     }
 
     @Test
-    public void shouldReturnAllProducts() {
+    public void shouldResolveAndCallGetAllProductService() {
         List<Product> products = TestData.getAllProducts();
-        when(productRepository.findAll()).thenReturn(products);
+        when(productService.getAllProducts()).thenReturn(products);
 
-        List<Product> productList = productService.getAllProducts();
+        List<Product> productList = productResolver.getAllProducts();
 
         assertNotNull(productList);
         assertEquals(1, productList.size());
     }
 
     @Test
-    public void shouldUpdateProduct() {
+    public void shouldResolveAndCallUpdateProductService() {
         ProductDto productDto = TestData.getProductDto();
         Product dummyProduct = TestData.createDummyProduct();
-        when(productRepository.save(any())).thenReturn(dummyProduct);
+        when(productService.updateProduct(any())).thenReturn(dummyProduct);
 
-        Product product = productService.updateProduct(productDto);
+        Product product = productResolver.updateProduct(productDto);
 
         assertNotNull(product);
         assertEquals(dummyProduct, product);
     }
 
     @Test
-    public void shouldDeleteProductById() {
-        doNothing().when(productRepository).deleteById("id");
-        Boolean isDeleted = productService.deleteProduct("id");
+    public void shouldResolveAndCallDeleteProductService() {
+        when(productService.deleteProduct("id")).thenReturn(true);
+        Boolean isDeleted = productResolver.deleteProduct("id");
 
         assertTrue(isDeleted);
     }

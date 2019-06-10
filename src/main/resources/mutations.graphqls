@@ -1,0 +1,9 @@
+type Mutation {
+    createBidder(bidderDto: BidderDto!): Bidder
+    updateBidder(bidderDto: BidderDto!): Bidder
+    deleteBidder(id: String!): Boolean
+
+    createProduct(productDto: ProductDto!): Product
+    updateProduct(productDto: ProductDto!): Product
+    deleteProduct(id: String!): Boolean
+}

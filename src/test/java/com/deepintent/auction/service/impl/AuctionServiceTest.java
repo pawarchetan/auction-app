@@ -14,6 +14,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
@@ -66,7 +67,9 @@ public class AuctionServiceTest {
     @Test
     public void shouldDeleteAuctionById() {
         doNothing().when(auctionRepository).deleteById("id");
-        auctionService.deleteAuction("id");
+        Boolean isDeleted = auctionService.deleteAuction("id");
+
+        assertTrue(isDeleted);
     }
 
 }

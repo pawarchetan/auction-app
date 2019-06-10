@@ -13,6 +13,6 @@ public interface ProductService {
 
     Product updateProduct(ProductDto productDto);
 
-    void deleteProduct(String id);
+    Boolean deleteProduct(String id);
 
 }

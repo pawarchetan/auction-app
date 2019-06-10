@@ -1,0 +1,13 @@
+type Bidder {
+    id: String!
+    firstName: String!
+    lastName: String!
+}
+
+type Product{
+    id: String!
+    name: String!
+    description: String!
+    address: String!
+    price: Float!
+}

@@ -36,6 +36,7 @@ public class BidderServiceImpl implements BidderService {
     @Override
     public Bidder updateBidder(BidderDto bidderDto) {
         Bidder bidder = Bidder.builder()
+                .id(bidderDto.getId())
                 .firstName(bidderDto.getFirstName())
                 .lastName(bidderDto.getLastName())
                 .build();
@@ -43,7 +44,8 @@ public class BidderServiceImpl implements BidderService {
     }
 
     @Override
-    public void deleteBidder(String id) {
+    public Boolean deleteBidder(String id) {
         bidderRepository.deleteById(id);
+        return true;
     }
 }

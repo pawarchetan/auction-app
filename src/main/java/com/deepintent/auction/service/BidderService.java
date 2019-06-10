@@ -13,5 +13,5 @@ public interface BidderService {
 
     Bidder updateBidder(BidderDto bidderDto);
 
-    void deleteBidder(String id);
+    Boolean deleteBidder(String id);
 }
