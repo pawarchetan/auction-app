@@ -2,8 +2,11 @@ package com.deepintent.auction.service.impl;
 
 import com.deepintent.auction.domain.Auction;
 import com.deepintent.auction.dto.AuctionDto;
+import com.deepintent.auction.exception.EntityNotFoundException;
 import com.deepintent.auction.repository.AuctionRepository;
+import com.deepintent.auction.repository.ProductRepository;
 import com.deepintent.auction.repository.TestData;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -28,11 +31,21 @@ public class AuctionServiceTest {
     @Mock
     private AuctionRepository auctionRepository;
 
+    @Mock
+    private ProductRepository productRepository;
+
+    private AuctionDto auctionDto;
+    private Auction dummyAuction;
+
+    @Before
+    public void setUp() {
+        auctionDto = TestData.getAuctionDto();
+        dummyAuction = TestData.createDummyAuction();
+    }
 
     @Test
     public void shouldCreateAuction() {
-        AuctionDto auctionDto = TestData.getAuctionDto();
-        Auction dummyAuction = TestData.createDummyAuction();
+        when(productRepository.findById("id")).thenReturn(java.util.Optional.ofNullable(TestData.createDummyProduct()));
         when(auctionRepository.save(any())).thenReturn(dummyAuction);
 
         Auction auction = auctionService.createAuction(auctionDto);
@@ -54,8 +67,7 @@ public class AuctionServiceTest {
 
     @Test
     public void shouldUpdateAuction() {
-        AuctionDto auctionDto = TestData.getAuctionDto();
-        Auction dummyAuction = TestData.createDummyAuction();
+        when(productRepository.findById("id")).thenReturn(java.util.Optional.ofNullable(TestData.createDummyProduct()));
         when(auctionRepository.save(any())).thenReturn(dummyAuction);
 
         Auction auction = auctionService.updateAuction(auctionDto);
@@ -66,10 +78,29 @@ public class AuctionServiceTest {
 
     @Test
     public void shouldDeleteAuctionById() {
+        when(auctionRepository.findById("id")).thenReturn(java.util.Optional.ofNullable(dummyAuction));
         doNothing().when(auctionRepository).deleteById("id");
         Boolean isDeleted = auctionService.deleteAuction("id");
 
         assertTrue(isDeleted);
+    }
+
+    @Test(expected = EntityNotFoundException.class)
+    public void shouldThrowAnExceptionIfInvalidProductIdPassedForAuctionCreation() {
+        when(productRepository.findById("id")).thenReturn(java.util.Optional.empty());
+        auctionService.createAuction(auctionDto);
+    }
+
+    @Test(expected = EntityNotFoundException.class)
+    public void shouldThrowAnExceptionIfAuctionDoesNotExistOnDeleteAuction() {
+        when(auctionRepository.findById("id")).thenReturn(java.util.Optional.empty());
+        auctionService.deleteAuction("id");
+    }
+
+    @Test(expected = EntityNotFoundException.class)
+    public void shouldThrowAnExceptionIfAuctionDoesNotExistOnUpdateAuction() {
+        when(auctionRepository.findById("id")).thenReturn(java.util.Optional.empty());
+        auctionService.updateAuction(auctionDto);
     }
 
 }

@@ -6,4 +6,12 @@ type Mutation {
     createProduct(productDto: ProductDto!): Product
     updateProduct(productDto: ProductDto!): Product
     deleteProduct(id: String!): Boolean
+
+    createAuction(auctionDto: AuctionDto!): Auction
+    updateAuction(auctionDto: AuctionDto!): Auction
+    deleteAuction(id: String!): Boolean
+
+    createBid(bidDto: BidDto!): Bid
+    updateBid(bidDto: BidDto!): Bid
+    deleteBid(id: String!): Boolean
 }

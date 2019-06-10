@@ -7,7 +7,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -17,10 +16,8 @@ public class Auction {
 
     @Id
     private String id;
-    private Product product;
-    private LocalDate startTime;
-    private LocalDate endTime;
+    private String productId;
     private Status status;
-    private BigDecimal startingPrice;
+    private BigDecimal targetPrice;
 
 }

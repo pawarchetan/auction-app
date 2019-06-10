@@ -2,8 +2,10 @@ package com.deepintent.auction.service.impl;
 
 import com.deepintent.auction.domain.Product;
 import com.deepintent.auction.dto.ProductDto;
+import com.deepintent.auction.exception.EntityNotFoundException;
 import com.deepintent.auction.repository.ProductRepository;
 import com.deepintent.auction.repository.TestData;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -11,6 +13,7 @@ import org.mockito.Mock;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -28,10 +31,17 @@ public class ProductServiceTest {
     @Mock
     private ProductRepository productRepository;
 
+    private ProductDto productDto;
+    private Product dummyProduct;
+
+    @Before
+    public void setUp() {
+        productDto = TestData.getProductDto();
+        dummyProduct = TestData.createDummyProduct();
+    }
+
     @Test
     public void shouldCreateProduct() {
-        ProductDto productDto = TestData.getProductDto();
-        Product dummyProduct = TestData.createDummyProduct();
         when(productRepository.save(any())).thenReturn(dummyProduct);
 
         Product product = productService.createProduct(productDto);
@@ -53,8 +63,7 @@ public class ProductServiceTest {
 
     @Test
     public void shouldUpdateProduct() {
-        ProductDto productDto = TestData.getProductDto();
-        Product dummyProduct = TestData.createDummyProduct();
+        when(productRepository.findById("id")).thenReturn(Optional.ofNullable(dummyProduct));
         when(productRepository.save(any())).thenReturn(dummyProduct);
 
         Product product = productService.updateProduct(productDto);
@@ -65,9 +74,22 @@ public class ProductServiceTest {
 
     @Test
     public void shouldDeleteProductById() {
+        when(productRepository.findById("id")).thenReturn(Optional.ofNullable(dummyProduct));
         doNothing().when(productRepository).deleteById("id");
         Boolean isDeleted = productService.deleteProduct("id");
 
         assertTrue(isDeleted);
+    }
+
+    @Test(expected = EntityNotFoundException.class)
+    public void shouldThrowAnExceptionIfProductNotExistWhileUpdating() {
+        when(productRepository.findById("id")).thenReturn(Optional.empty());
+        productService.updateProduct(productDto);
+    }
+
+    @Test(expected = EntityNotFoundException.class)
+    public void shouldThrowAnExceptionIfProductNotExistWhileDeleting() {
+        when(productRepository.findById("id")).thenReturn(Optional.empty());
+        productService.deleteProduct("id");
     }
 }

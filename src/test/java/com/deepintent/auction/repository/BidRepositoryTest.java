@@ -3,7 +3,6 @@ package com.deepintent.auction.repository;
 import com.deepintent.auction.domain.Auction;
 import com.deepintent.auction.domain.Bid;
 import com.deepintent.auction.domain.Bidder;
-import com.deepintent.auction.domain.Product;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,7 +12,6 @@ import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -59,7 +57,7 @@ public class BidRepositoryTest {
         assertNotNull(bid);
         assertNotNull(bid.getId());
         assertEquals(auction.getId(), bid.getAuctionId());
-        assertEquals(bidder.getId(), bid.getUserId());
+        assertEquals(bidder.getId(), bid.getBidderId());
         assertEquals(BigDecimal.valueOf(3000.00), bid.getAmount());
     }
 
@@ -70,6 +68,31 @@ public class BidRepositoryTest {
         assertNotNull(bids);
         assertEquals(1, bids.size());
     }
+
+    @Test
+    public void shouldReturnAllBidsForUser() {
+        persistBid();
+        List<Bid> bids = bidRepository.findByBidderId(bidder.getId());
+
+        assertEquals(2, bids.size());
+    }
+
+    @Test
+    public void shouldReturnAllBidsForAuction() {
+        persistBid();
+        List<Bid> bids = bidRepository.findByAuctionId(auction.getId());
+
+        assertEquals(2, bids.size());
+    }
+
+    @Test
+    public void shouldReturnAllBidsForUserAndAuction() {
+        persistBid();
+        List<Bid> bids = bidRepository.findByAuctionIdAndBidderId(auction.getId(), bidder.getId());
+
+        assertEquals(2, bids.size());
+    }
+
 
     @Test
     public void shouldUpdateBid() {
@@ -92,11 +115,12 @@ public class BidRepositoryTest {
     private Bid persistBid() {
         auction = TestData.createAuction(productRepository, auctionRepository);
         bidder = TestData.createBidder(bidderRepository);
-        Bid bid = new Bid();
-        bid.setAuctionId(auction.getId());
-        bid.setUserId(bidder.getId());
-        bid.setTime(LocalDate.now());
-        bid.setAmount(BigDecimal.valueOf(3000.00));
+        Bid bid = Bid.builder()
+                .auctionId(auction.getId())
+                .bidderId(bidder.getId())
+                .date("2018-09-16")
+                .amount(BigDecimal.valueOf(3000.00))
+                .build();
         return bidRepository.save(bid);
     }
 

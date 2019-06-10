@@ -3,36 +3,40 @@ package com.deepintent.auction.service.impl;
 import com.deepintent.auction.domain.Auction;
 import com.deepintent.auction.domain.Product;
 import com.deepintent.auction.dto.AuctionDto;
+import com.deepintent.auction.exception.EntityNotFoundException;
 import com.deepintent.auction.repository.AuctionRepository;
+import com.deepintent.auction.repository.ProductRepository;
 import com.deepintent.auction.service.AuctionService;
-import com.deepintent.auction.util.DtoMaper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AuctionServiceImpl implements AuctionService {
 
     private AuctionRepository auctionRepository;
+    private ProductRepository productRepository;
 
     @Autowired
-    public AuctionServiceImpl(AuctionRepository auctionRepository) {
+    public AuctionServiceImpl(AuctionRepository auctionRepository, ProductRepository productRepository) {
         this.auctionRepository = auctionRepository;
+        this.productRepository = productRepository;
     }
 
     @Override
     public Auction createAuction(AuctionDto auctionDto) {
-        //TODO validation of product details
-        Product product = DtoMaper.build(auctionDto.getProduct());
-        Auction auction = Auction.builder()
-                .product(product)
-                .startTime(auctionDto.getStartTime())
-                .endTime(auctionDto.getEndTime())
-                .startingPrice(auctionDto.getStartingPrice())
-                .status(auctionDto.getStatus())
-                .build();
-        return auctionRepository.save(auction);
+        Optional<Product> product = productRepository.findById(auctionDto.getProductId());
+        if (product.isPresent()) {
+            Auction auction = Auction.builder()
+                    .productId(product.get().getId())
+                    .targetPrice(auctionDto.getTargetPrice())
+                    .status(auctionDto.getStatus())
+                    .build();
+            return auctionRepository.save(auction);
+        }
+        throw new EntityNotFoundException("Product not found for given id : " + auctionDto.getProductId());
     }
 
     @Override
@@ -42,21 +46,27 @@ public class AuctionServiceImpl implements AuctionService {
 
     @Override
     public Auction updateAuction(AuctionDto auctionDto) {
-        Product product = DtoMaper.build(auctionDto.getProduct());
-        Auction auction = Auction.builder()
-                .product(product)
-                .startTime(auctionDto.getStartTime())
-                .endTime(auctionDto.getEndTime())
-                .startingPrice(auctionDto.getStartingPrice())
-                .status(auctionDto.getStatus())
-                .build();
-        return auctionRepository.save(auction);
+        Optional<Product> product = productRepository.findById(auctionDto.getProductId());
+        if (product.isPresent()) {
+            Auction auction = Auction.builder()
+                    .id(auctionDto.getId())
+                    .productId(product.get().getId())
+                    .targetPrice(auctionDto.getTargetPrice())
+                    .status(auctionDto.getStatus())
+                    .build();
+            return auctionRepository.save(auction);
+        }
+        throw new EntityNotFoundException("Product not found for given id : " + auctionDto.getProductId());
     }
 
     @Override
     public Boolean deleteAuction(String id) {
-        auctionRepository.deleteById(id);
-        return true;
+        Optional<Auction> auction = auctionRepository.findById(id);
+        if (auction.isPresent()) {
+            auctionRepository.deleteById(id);
+            return true;
+        }
+        throw new EntityNotFoundException("Auction not found for given id : " + id);
     }
 
 }

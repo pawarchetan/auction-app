@@ -11,3 +11,18 @@ type Product{
     address: String!
     price: Float!
 }
+
+type Auction {
+    id: String!
+    productId: String!
+    startDate: String!
+    startingPrice: Float!
+}
+
+type Bid {
+    id: String!
+    auctionId: String!
+    bidderId: String!
+    amount: Float!
+}
+

@@ -45,9 +45,9 @@ public class AuctionRepositoryTest {
     public void shouldCreateAuction() {
         assertNotNull(auction);
         assertNotNull(auction.getId());
-        assertNotNull(auction.getProduct());
+        assertNotNull(auction.getProductId());
         assertEquals(CREATED, auction.getStatus());
-        assertEquals(BigDecimal.valueOf(5000.00), auction.getStartingPrice());
+        assertEquals(BigDecimal.valueOf(5000.00), auction.getTargetPrice());
     }
 
     @Test
@@ -61,11 +61,11 @@ public class AuctionRepositoryTest {
 
     @Test
     public void shouldUpdateAuction() {
-        auction.setStartingPrice(BigDecimal.valueOf(4000.00));
+        auction.setTargetPrice(BigDecimal.valueOf(4000.00));
 
         Auction updatedAuction = auctionRepository.save(auction);
 
-        assertEquals(BigDecimal.valueOf(4000.00), updatedAuction.getStartingPrice());
+        assertEquals(BigDecimal.valueOf(4000.00), updatedAuction.getTargetPrice());
     }
 
     @Test

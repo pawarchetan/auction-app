@@ -1,14 +1,15 @@
 package com.deepintent.auction.repository;
 
 import com.deepintent.auction.domain.Auction;
+import com.deepintent.auction.domain.Bid;
 import com.deepintent.auction.domain.Bidder;
 import com.deepintent.auction.domain.Product;
 import com.deepintent.auction.dto.AuctionDto;
+import com.deepintent.auction.dto.BidDto;
 import com.deepintent.auction.dto.BidderDto;
 import com.deepintent.auction.dto.ProductDto;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,20 +37,13 @@ public class TestData {
     }
 
     public static Auction createAuction(ProductRepository productRepository, AuctionRepository auctionRepository) {
-        Product product = createProduct(productRepository);
-        Auction auction = Auction.builder()
-                .product(product)
-                .startTime(LocalDate.now())
-                .endTime(LocalDate.now().plusDays(1))
-                .startingPrice(BigDecimal.valueOf(5000.00))
-                .status(CREATED)
-                .build();
+        Auction auction = createDummyAuction();
         return auctionRepository.save(auction);
     }
 
     public static ProductDto getProductDto() {
         return ProductDto.builder()
-                .id("test-id")
+                .id("id")
                 .name("House")
                 .price(BigDecimal.valueOf(200.00))
                 .build();
@@ -63,9 +57,20 @@ public class TestData {
                 .build();
     }
 
+    public static BidDto getBidDto() {
+        return BidDto.builder()
+                .id("id")
+                .auctionId("id")
+                .bidderId("id")
+                .amount(BigDecimal.valueOf(200.00))
+                .build();
+    }
+
+
+
     public static Product createDummyProduct() {
         return Product.builder()
-                .id("test-id")
+                .id("id")
                 .name("House")
                 .price(BigDecimal.valueOf(200.00))
                 .build();
@@ -76,6 +81,16 @@ public class TestData {
                 .id("id")
                 .firstName("first_name")
                 .lastName("last_name")
+                .build();
+    }
+
+    public static Bid createDummyBid() {
+        return Bid.builder()
+                .id("id")
+                .auctionId("id")
+                .bidderId("id")
+                .amount(BigDecimal.valueOf(200.00))
+                .date("2018-09-16")
                 .build();
     }
 
@@ -91,13 +106,17 @@ public class TestData {
         return bidders;
     }
 
+    public static List<Bid> getAllBids() {
+        List<Bid> bids = new ArrayList<>();
+        bids.add(createDummyBid());
+        return bids;
+    }
+
     public static AuctionDto getAuctionDto() {
         return AuctionDto.builder()
                 .id("id")
-                .startTime(LocalDate.now())
-                .endTime(LocalDate.now().plusDays(1))
-                .product(getProductDto())
-                .startingPrice(BigDecimal.valueOf(5000.00))
+                .productId(getProductDto().getId())
+                .targetPrice(BigDecimal.valueOf(5000.00))
                 .status(CREATED)
                 .build();
     }
@@ -105,10 +124,8 @@ public class TestData {
     public static Auction createDummyAuction() {
         return Auction.builder()
                 .id("id")
-                .startTime(LocalDate.now())
-                .endTime(LocalDate.now().plusDays(1))
-                .product(createDummyProduct())
-                .startingPrice(BigDecimal.valueOf(5000.00))
+                .productId(createDummyProduct().getId())
+                .targetPrice(BigDecimal.valueOf(5000.00))
                 .status(CREATED)
                 .build();
     }

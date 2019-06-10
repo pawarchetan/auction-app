@@ -11,3 +11,21 @@ input ProductDto {
     address: String!
     price: Float!
 }
+
+input AuctionDto {
+    id: String!
+    productId: String!
+    status: Status!
+    targetPrice: Float!
+}
+
+input BidDto {
+    id: String!
+    auctionId: String!
+    bidderId: String!
+    amount: Float!
+}
+
+enum Status {
+    CREATED, ACTIVE, FINISHED, FINISHED_NO_RESULT
+}

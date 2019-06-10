@@ -2,4 +2,8 @@ type Query {
     getAllBidders: [ Bidder!]
 
     getAllProducts: [ Product!]
+
+    getAllAuctions: [Auction!]
+
+    getAllBids: [Bid!]
 }
