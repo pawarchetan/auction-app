@@ -15,8 +15,7 @@ type Product{
 type Auction {
     id: String!
     productId: String!
-    startDate: String!
-    startingPrice: Float!
+    targetPrice: Float!
 }
 
 type Bid {

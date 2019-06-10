@@ -13,7 +13,9 @@ services:
 
   mongo:
     image: mongo
-    container_name: auction_app
+    container_name: auction_app-mongo
+    ports:
+    - 27017:27017
     volumes:
     - $HOME/data/auction_app-data:/data/db
     - $HOME/data/auction_app-bkp:/data/bkp

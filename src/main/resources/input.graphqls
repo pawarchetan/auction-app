@@ -27,5 +27,5 @@ input BidDto {
 }
 
 enum Status {
-    CREATED, ACTIVE, FINISHED, FINISHED_NO_RESULT
+    CREATED, ACTIVE, FINISHED
 }

@@ -10,5 +10,4 @@ COPY build/libs/auction-app-1.0-SNAPSHOT.jar $PROJECT_HOME/auction-app-1.0-SNAPS
 
 WORKDIR $PROJECT_HOME
 
-CMD ["java", "-Dspring.data.mongodb.uri=mongodb://auction_app-mongo:27017/auction-app","-Djava.security.egd=file:/dev/./urandom","-jar",
-"./auction-app-1.0-SNAPSHOT.jar"]
+CMD ["java","-Dspring.data.mongodb.uri=mongodb://auction_app-mongo:27017/auction-app","-Djava.security.egd=file:/dev/./urandom","-jar","./auction-app-1.0-SNAPSHOT.jar"]
