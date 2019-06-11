@@ -5,11 +5,8 @@ import com.deepintent.auction.domain.Bid;
 import com.deepintent.auction.domain.Status;
 import com.deepintent.auction.dto.BidDto;
 import com.deepintent.auction.exception.EntityNotFoundException;
-import com.deepintent.auction.exception.InvalidAmountException;
-import com.deepintent.auction.exception.InvalidAuctionAccessException;
-import com.deepintent.auction.repository.AuctionRepository;
-import com.deepintent.auction.repository.BidRepository;
-import com.deepintent.auction.repository.BidderRepository;
+import com.deepintent.auction.service.AuctionService;
+import com.deepintent.auction.service.BidderService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -17,8 +14,8 @@ import org.mockito.Mock;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
-import java.util.Optional;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
@@ -29,38 +26,28 @@ public class ValidatorTest {
     private Validator validator;
 
     @Mock
-    private BidderRepository bidderRepository;
+    private BidderService bidderService;
 
     @Mock
-    private BidRepository bidRepository;
-
-    @Mock
-    private AuctionRepository auctionRepository;
+    private AuctionService auctionService;
 
     @Test(expected = EntityNotFoundException.class)
     public void shouldThrowAnExceptionIfBidderDoesNotExist() {
-        when(bidderRepository.findById("id")).thenReturn(Optional.empty());
+        when(bidderService.getBidderById("id")).thenReturn(null);
         validator.validateIsBidderExist("id");
     }
 
     @Test(expected = EntityNotFoundException.class)
-    public void shouldThrowAnExceptionIfBidDoesNotExist() {
-        when(bidRepository.findById("id")).thenReturn(Optional.empty());
-        validator.validateIsBidExist("id");
-    }
-
-    @Test(expected = EntityNotFoundException.class)
     public void shouldThrowAnExceptionIfAuctionDoesNotExist() {
-        when(auctionRepository.findById("id")).thenReturn(Optional.empty());
+        when(auctionService.getAuctionById("id")).thenReturn(null);
         validator.validateIsAuctionExist("id");
     }
 
-    @Test(expected = InvalidAuctionAccessException.class)
     public void shouldThrowAnExceptionIfAuctionIsFinished() {
         Auction auction = Auction.builder()
                 .status(Status.FINISHED)
                 .build();
-        validator.validateIsAuctionFinished(auction);
+        assertFalse(validator.validateIsAuctionFinished(auction));
     }
 
     @Test
@@ -77,7 +64,7 @@ public class ValidatorTest {
         assertTrue(isPriceMet);
     }
 
-    @Test(expected = InvalidAmountException.class)
+    @Test
     public void shouldThrowAnExceptionIfHigherAmountBidAlreadyExist() {
         BidDto bidDto = BidDto.builder()
                 .amount(BigDecimal.valueOf(5000.00))
@@ -86,7 +73,7 @@ public class ValidatorTest {
                 .amount(BigDecimal.valueOf(6000.00))
                 .build();
 
-        validator.validateIfHigherAmountBidExist(highestAmountBid, bidDto);
+        assertTrue(validator.validateIfHigherAmountBidExist(highestAmountBid, bidDto));
     }
 
 }

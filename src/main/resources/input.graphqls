@@ -17,6 +17,7 @@ input AuctionDto {
     productId: String!
     status: Status!
     targetPrice: Float!
+    reservePrice: Float!
 }
 
 input BidDto {
@@ -24,8 +25,13 @@ input BidDto {
     auctionId: String!
     bidderId: String!
     amount: Float!
+    bidStatus: String
 }
 
 enum Status {
     CREATED, ACTIVE, FINISHED
+}
+
+enum BidStatus {
+    FINAL_BID, BID_PLACED
 }

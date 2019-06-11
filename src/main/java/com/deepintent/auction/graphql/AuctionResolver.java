@@ -28,6 +28,10 @@ public class AuctionResolver implements GraphQLQueryResolver, GraphQLMutationRes
         return auctionService.getAllAuctions();
     }
 
+    public Auction getAuctionById(String id) {
+        return auctionService.getAuctionById(id);
+    }
+
     public Auction updateAuction(AuctionDto auctionDto) {
         return auctionService.updateAuction(auctionDto);
     }

@@ -14,8 +14,10 @@ type Product{
 
 type Auction {
     id: String!
+    status: Status!
     productId: String!
     targetPrice: Float!
+    reservePrice: Float
 }
 
 type Bid {
@@ -23,5 +25,6 @@ type Bid {
     auctionId: String!
     bidderId: String!
     amount: Float!
+    bidStatus: BidStatus
 }
 

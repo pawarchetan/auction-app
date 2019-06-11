@@ -62,6 +62,15 @@ public class BidderServiceTest {
     }
 
     @Test
+    public void shouldReturnBidderById() {
+        when(bidderRepository.findById("id")).thenReturn(Optional.ofNullable(dummyBidder));
+        Bidder bidder = bidderService.getBidderById("id");
+
+        assertNotNull(bidder);
+        assertEquals("id", bidder.getId());
+    }
+
+    @Test
     public void shouldUpdateBidder() {
         BidderDto bidderDto = TestData.getBidderDto();
         Bidder dummyBidder = TestData.createDummyBidder();
@@ -87,12 +96,6 @@ public class BidderServiceTest {
     public void shouldThrowAnExceptionIfBidderNotExistWhileUpdatingBidder() {
         when(bidderRepository.findById("id")).thenReturn(Optional.empty());
         bidderService.updateBidder(bidderDto);
-    }
-
-    @Test(expected = EntityNotFoundException.class)
-    public void shouldThrowAnExceptionIfBidderNotExistWhileDeletingBidder() {
-        when(bidderRepository.findById("id")).thenReturn(Optional.empty());
-        bidderService.deleteBidder("id");
     }
 
 }

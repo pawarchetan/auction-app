@@ -28,6 +28,18 @@ public class BidResolver implements GraphQLQueryResolver, GraphQLMutationResolve
         return bidService.getAllBids();
     }
 
+    public List<Bid> getAllBidsForAuction(String id) {
+        return bidService.getAllBidsForAuction(id);
+    }
+
+    public List<Bid> getAllBidsForBidder(String id) {
+        return bidService.getAllBidsForBidder(id);
+    }
+
+    public List<Bid> getAllBidsForBidderAndAuction(String bidderId, String auctionId) {
+        return bidService.getAllBidsForBidderAndAuction(bidderId, auctionId);
+    }
+
     public Bid updateBid(BidDto bidDto) {
         return bidService.updateBid(bidDto);
     }
@@ -35,4 +47,5 @@ public class BidResolver implements GraphQLQueryResolver, GraphQLMutationResolve
     public Boolean deleteBid(String id) {
         return bidService.deleteBid(id);
     }
+
 }

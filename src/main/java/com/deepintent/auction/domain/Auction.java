@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
@@ -16,8 +17,10 @@ public class Auction {
 
     @Id
     private String id;
+    @Indexed
     private String productId;
     private Status status;
     private BigDecimal targetPrice;
+    private BigDecimal reservePrice;
 
 }

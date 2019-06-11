@@ -14,6 +14,7 @@ import org.mockito.Mock;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -65,6 +66,16 @@ public class AuctionServiceTest {
         assertEquals(1, auctionList.size());
     }
 
+
+    @Test
+    public void shouldReturnBidderById() {
+        when(auctionRepository.findById("id")).thenReturn(Optional.ofNullable(dummyAuction));
+        Auction auction = auctionService.getAuctionById("id");
+
+        assertNotNull(auction);
+        assertEquals("id", auction.getId());
+    }
+
     @Test
     public void shouldUpdateAuction() {
         when(productRepository.findById("id")).thenReturn(java.util.Optional.ofNullable(TestData.createDummyProduct()));
@@ -89,12 +100,6 @@ public class AuctionServiceTest {
     public void shouldThrowAnExceptionIfInvalidProductIdPassedForAuctionCreation() {
         when(productRepository.findById("id")).thenReturn(java.util.Optional.empty());
         auctionService.createAuction(auctionDto);
-    }
-
-    @Test(expected = EntityNotFoundException.class)
-    public void shouldThrowAnExceptionIfAuctionDoesNotExistOnDeleteAuction() {
-        when(auctionRepository.findById("id")).thenReturn(java.util.Optional.empty());
-        auctionService.deleteAuction("id");
     }
 
     @Test(expected = EntityNotFoundException.class)

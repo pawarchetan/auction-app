@@ -1,9 +1,14 @@
 type Query {
     getAllBidders: [ Bidder!]
+    getBidderById(id: String!): Bidder
 
     getAllProducts: [ Product!]
 
     getAllAuctions: [Auction!]
+    getAuctionById(id: String!): Auction
 
     getAllBids: [Bid!]
+    getAllBidsForAuction(id: String!): [Bid]
+    getAllBidsForBidder(id: String!): [Bid]
+    getAllBidsForBidderAndAuction(bidderId: String!, auctionId: String!): [Bid]
 }

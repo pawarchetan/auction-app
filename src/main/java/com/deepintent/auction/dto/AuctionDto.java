@@ -18,5 +18,6 @@ public class AuctionDto {
     private String productId;
     private Status status;
     private BigDecimal targetPrice;
+    private BigDecimal reservePrice;
 
 }

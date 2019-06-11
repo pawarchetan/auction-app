@@ -20,5 +20,6 @@ public class Bid {
     private String bidderId;
     private BigDecimal amount;
     private String date;
+    private BidStatus bidStatus;
 
 }

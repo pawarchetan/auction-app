@@ -87,9 +87,4 @@ public class ProductServiceTest {
         productService.updateProduct(productDto);
     }
 
-    @Test(expected = EntityNotFoundException.class)
-    public void shouldThrowAnExceptionIfProductNotExistWhileDeleting() {
-        when(productRepository.findById("id")).thenReturn(Optional.empty());
-        productService.deleteProduct("id");
-    }
 }

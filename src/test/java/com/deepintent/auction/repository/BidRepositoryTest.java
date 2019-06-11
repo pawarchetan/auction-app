@@ -70,7 +70,7 @@ public class BidRepositoryTest {
     }
 
     @Test
-    public void shouldReturnAllBidsForUser() {
+    public void shouldReturnAllBidsForBidder() {
         persistBid(BigDecimal.valueOf(3000.00));
         List<Bid> bids = bidRepository.findByBidderId(bidder.getId());
 

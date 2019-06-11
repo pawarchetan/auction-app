@@ -51,6 +51,17 @@ public class BidderResolverTest {
     }
 
     @Test
+    public void shouldResolveAndCallGetAuctionByIdService() {
+        Bidder bidder = TestData.createDummyBidder();
+        when(bidderService.getBidderById("id")).thenReturn(bidder);
+
+        Bidder resolvedBidder = bidderResolver.getBidderById("id");
+
+        assertNotNull(resolvedBidder);
+        assertEquals("id", resolvedBidder.getId());
+    }
+
+    @Test
     public void shouldResolveAndCallUpdateBidderService() {
         BidderDto bidderDto = TestData.getBidderDto();
         Bidder dummyBidder = TestData.createDummyBidder();

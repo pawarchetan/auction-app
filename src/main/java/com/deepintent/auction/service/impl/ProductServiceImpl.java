@@ -55,12 +55,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Boolean deleteProduct(String id) {
-        Optional<Product> product = productRepository.findById(id);
-        if (product.isPresent()) {
-            productRepository.deleteById(id);
-            return true;
-        }
-        throw new EntityNotFoundException("Product not found with given id :" + id);
+        productRepository.deleteById(id);
+        return true;
     }
 
 }

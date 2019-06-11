@@ -36,6 +36,12 @@ public class BidderServiceImpl implements BidderService {
     }
 
     @Override
+    public Bidder getBidderById(String id) {
+        Optional<Bidder> bidder = bidderRepository.findById(id);
+        return bidder.orElse(null);
+    }
+
+    @Override
     public Bidder updateBidder(BidderDto bidderDto) {
         Optional<Bidder> bidder = bidderRepository.findById(bidderDto.getId());
         if (bidder.isPresent()) {
@@ -51,11 +57,8 @@ public class BidderServiceImpl implements BidderService {
 
     @Override
     public Boolean deleteBidder(String id) {
-        Optional<Bidder> bidder = bidderRepository.findById(id);
-        if (bidder.isPresent()) {
-            bidderRepository.deleteById(id);
-            return true;
-        }
-        throw new EntityNotFoundException("Bidder not exist with given id: " + id);
+        bidderRepository.deleteById(id);
+        return true;
     }
+
 }

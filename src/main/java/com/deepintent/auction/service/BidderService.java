@@ -11,7 +11,10 @@ public interface BidderService {
 
     List<Bidder> getAllBidders();
 
+    Bidder getBidderById(String id);
+
     Bidder updateBidder(BidderDto bidderDto);
 
     Boolean deleteBidder(String id);
+
 }

@@ -51,6 +51,39 @@ public class BidResolverTest {
     }
 
     @Test
+    public void shouldResolveAndCallGetAllBidsForAuctionService() {
+        List<Bid> bids = TestData.getAllBids();
+        when(bidService.getAllBidsForAuction("id")).thenReturn(bids);
+
+        List<Bid> resolveBids = bidResolver.getAllBidsForAuction("id");
+
+        assertNotNull(resolveBids);
+        assertEquals(1, resolveBids.size());
+    }
+
+    @Test
+    public void shouldResolveAndCallGetAllBidsForBidderService() {
+        List<Bid> bids = TestData.getAllBids();
+        when(bidService.getAllBidsForBidder("id")).thenReturn(bids);
+
+        List<Bid> resolveBids = bidResolver.getAllBidsForBidder("id");
+
+        assertNotNull(resolveBids);
+        assertEquals(1, resolveBids.size());
+    }
+
+    @Test
+    public void shouldResolveAndCallGetAllBidsForAuctionAndBidderService() {
+        List<Bid> bids = TestData.getAllBids();
+        when(bidService.getAllBidsForBidderAndAuction("id", "id")).thenReturn(bids);
+
+        List<Bid> resolveBids = bidResolver.getAllBidsForBidderAndAuction("id", "id");
+
+        assertNotNull(resolveBids);
+        assertEquals(1, resolveBids.size());
+    }
+
+    @Test
     public void shouldResolveAndCallUpdateBidService() {
         BidDto bidDto = TestData.getBidDto();
         Bid dummyBid = TestData.createDummyBid();

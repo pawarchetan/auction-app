@@ -10,6 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -48,6 +49,17 @@ public class AuctionResolverTest {
 
         assertNotNull(auctionList);
         assertEquals(1, auctionList.size());
+    }
+
+    @Test
+    public void shouldResolveAndCallGetAuctionByIdService() {
+        Auction auction = TestData.createDummyAuction();
+        when(auctionService.getAuctionById("id")).thenReturn(auction);
+
+        Auction resolvedAuction = auctionResolver.getAuctionById("id");
+
+        assertNotNull(resolvedAuction);
+        assertEquals(BigDecimal.valueOf(5000.00), resolvedAuction.getTargetPrice());
     }
 
     @Test

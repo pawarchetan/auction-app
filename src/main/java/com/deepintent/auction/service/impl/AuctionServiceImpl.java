@@ -33,6 +33,7 @@ public class AuctionServiceImpl implements AuctionService {
                     .productId(product.get().getId())
                     .targetPrice(auctionDto.getTargetPrice())
                     .status(auctionDto.getStatus())
+                    .reservePrice(auctionDto.getReservePrice())
                     .build();
             return auctionRepository.save(auction);
         }
@@ -45,6 +46,12 @@ public class AuctionServiceImpl implements AuctionService {
     }
 
     @Override
+    public Auction getAuctionById(String id) {
+        Optional<Auction> auction = auctionRepository.findById(id);
+        return auction.orElse(null);
+    }
+
+    @Override
     public Auction updateAuction(AuctionDto auctionDto) {
         Optional<Product> product = productRepository.findById(auctionDto.getProductId());
         if (product.isPresent()) {
@@ -53,6 +60,7 @@ public class AuctionServiceImpl implements AuctionService {
                     .productId(product.get().getId())
                     .targetPrice(auctionDto.getTargetPrice())
                     .status(auctionDto.getStatus())
+                    .reservePrice(auctionDto.getReservePrice())
                     .build();
             return auctionRepository.save(auction);
         }
@@ -61,12 +69,8 @@ public class AuctionServiceImpl implements AuctionService {
 
     @Override
     public Boolean deleteAuction(String id) {
-        Optional<Auction> auction = auctionRepository.findById(id);
-        if (auction.isPresent()) {
-            auctionRepository.deleteById(id);
-            return true;
-        }
-        throw new EntityNotFoundException("Auction not found for given id : " + id);
+        auctionRepository.deleteById(id);
+        return true;
     }
 
 }

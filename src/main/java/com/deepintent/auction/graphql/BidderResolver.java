@@ -28,6 +28,10 @@ public class BidderResolver implements GraphQLQueryResolver, GraphQLMutationReso
         return bidderService.getAllBidders();
     }
 
+    public Bidder getBidderById(String id) {
+        return bidderService.getBidderById(id);
+    }
+
     public Bidder updateBidder(BidderDto bidderDto) {
         return bidderService.updateBidder(bidderDto);
     }
@@ -35,4 +39,5 @@ public class BidderResolver implements GraphQLQueryResolver, GraphQLMutationReso
     public Boolean deleteBidder(String id) {
         return bidderService.deleteBidder(id);
     }
+
 }

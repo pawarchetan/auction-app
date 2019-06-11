@@ -11,6 +11,8 @@ public interface AuctionService {
 
     List<Auction> getAllAuctions();
 
+    Auction getAuctionById(String id);
+
     Auction updateAuction(AuctionDto auctionDto);
 
     Boolean deleteAuction(String id);

@@ -11,6 +11,12 @@ public interface BidService {
 
     List<Bid> getAllBids();
 
+    List<Bid> getAllBidsForBidder(String bidderId);
+
+    List<Bid> getAllBidsForAuction(String auctionId);
+
+    List<Bid> getAllBidsForBidderAndAuction(String bidderId, String auctionId);
+
     Bid updateBid(BidDto bidDto);
 
     Boolean deleteBid(String id);
