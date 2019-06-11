@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class BidServiceImpl implements BidService {
@@ -24,6 +25,8 @@ public class BidServiceImpl implements BidService {
     private BidRepository bidRepository;
     private AuctionService auctionService;
     private Validator validator;
+
+    private ConcurrentHashMap<String, Bid> highestBidCache = new ConcurrentHashMap<>(100, 0.75f, 20);
 
     @Autowired
     public BidServiceImpl(BidRepository bidRepository, AuctionService auctionService, Validator validator) {
@@ -40,10 +43,11 @@ public class BidServiceImpl implements BidService {
 
         validateIfAuctionAlreadyFinished(auction);
 
-        Bid highestAmountBid = bidRepository.findFirstByAuctionIdOrderByAmountDesc(bidDto.getAuctionId()); //TODO distributed cache
+        Bid highestAmountBid = highestBidCache.get(bidDto.getAuctionId());
 
         Bid isFinalBid = validateIfAuctionTargetPriceMet(highestAmountBid, bidDto, auction);
         if (isFinalBid != null) {
+            highestBidCache.remove(bidDto.getAuctionId());
             return isFinalBid;
         }
 
@@ -51,7 +55,9 @@ public class BidServiceImpl implements BidService {
         updateAuctionStatus(auction, Status.ACTIVE);
 
         Bid bid = mapBidDtoToBid(bidDto, false);
-        return bidRepository.save(bid);
+        Bid createdBid = bidRepository.save(bid);
+        highestBidCache.put(bidDto.getAuctionId(), createdBid);
+        return createdBid;
     }
 
     @Override

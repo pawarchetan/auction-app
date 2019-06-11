@@ -5,7 +5,6 @@ import com.deepintent.auction.domain.Bid;
 import com.deepintent.auction.domain.BidStatus;
 import com.deepintent.auction.dto.AuctionDto;
 import com.deepintent.auction.dto.BidDto;
-import com.deepintent.auction.exception.InvalidAmountException;
 import com.deepintent.auction.repository.AuctionRepository;
 import com.deepintent.auction.repository.BidRepository;
 import com.deepintent.auction.repository.BidderRepository;
@@ -74,16 +73,6 @@ public class BidServiceTest {
 
         assertNotNull(createdBid);
         assertEquals(createdBid.getAmount(), BigDecimal.valueOf(2000.00));
-    }
-
-    @Test(expected = InvalidAmountException.class)
-    public void shouldThrowAnExceptionIfHigherAmountBidExist() {
-        when(validator.validateIsTargetAuctionPriceMet(bidDto, dummyAuction)).thenReturn(false);
-        when(bidRepository.findFirstByAuctionIdOrderByAmountDesc(bidDto.getAuctionId())).thenReturn(dummyBid);
-        when(validator.validateIsAuctionExist(any())).thenReturn(dummyAuction);
-        when(validator.validateIfHigherAmountBidExist(dummyBid, bidDto)).thenReturn(true);
-
-        bidService.createBid(bidDto);
     }
 
     @Test
