@@ -36,17 +36,25 @@
 #### Implementation details :
 
 * **Schema design/decision made :**
-  * 
+  * Product : 
+    1. To represent Real Estate Entity.
+  * Auction :
+    1. To represent Auction which will have Product ID (String) for which auction is created, target and reserve price of property/auction.
+  * Bidder :
+    1.  To represent the person who will be bidding.
+  * Bid :
+    1.  To represent a bid placed by bidder (Id) again auction (Id).
+    2.  We are not storing List<Bids> in Auction because in some cases we might need only bid. For example: Finding all bids placed by bidder. We dont want to search bids in each and every auction. Another use case, for a popular auction we will have n bids so storing all n bids inside a single document is not an ideal choice.
   
 * **GraphQL:** 
   * Please find all GraphQL queries/types/inputs/mutations in resources folder.
   * Resolvers can be found in graphql package.
 
-* **Unit Tests/ Integration Tests: **
+* **Unit Tests:**
   * Unit tests has been written using Junit and Mockito
   * Repository Tests has been written using SpringMongoTest to actually test data inserting and deletion.
 
-* **Challenges faced : **
+* **Challenges faced:**
   * First time tried and looked into GraphQL, so faced some challenges in understanding the best practices from the development side. As on the internet I saw multiple ways of implementing the QraphQL API, so was not sure which one is preferred way as per industry standard.
   * Faced some chalaneges in writing actual integration tests for GraphQL API.
 
