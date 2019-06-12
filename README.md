@@ -17,6 +17,15 @@
 * IDE used --> IntelliJ
 
 #### How to run :
+* Local (without docker) :
+  * go to project directory and run ./gradew bootRun
+  * Access the URL : http://localhost:8080/graphiql and run queris/mutations.
+* Local (with Docker) :
+ * go to project directory and run ./gradlew clean build
+ * run docker-compose build
+ * run docker-compose up
+ * http://localhost:8182/graphiql 
+* Heroku : https://powerful-scrubland-27294.herokuapp.com/graphiql
 
 #### Code coverage :
 * Approximately more than 90% code has been covered.
@@ -50,9 +59,16 @@
   * Please find all GraphQL queries/types/inputs/mutations in resources folder.
   * Resolvers can be found in graphql package.
 
+* **Docker:** 
+  * Please find dockerfile and docker-compose file 
+
+* **API details:**
+  * Please find attached QraphQL_API_Details.docx file for GraphQL API/payload details.
+
 * **Unit Tests:**
   * Unit tests has been written using Junit and Mockito
   * Repository Tests has been written using SpringMongoTest to actually test data inserting and deletion.
+  * AttachBidIntegrationTest.java - E2E test to create product, bidder, auction and attaching bid to it.
 
 * **Challenges faced:**
   * First time tried and looked into GraphQL, so faced some challenges in understanding the best practices from the development side. As on the internet I saw multiple ways of implementing the QraphQL API, so was not sure which one is preferred way as per industry standard.
@@ -60,7 +76,7 @@
 
 #### Limitations/Future scope :
 * To achieve high consistency, consider use of Causal Consistency and Read and Write Concerns available in MongoDB.
-* Use of distributed cache (memcache or redis)
+* Use of distributed cache (memcache or redis - add it in docker compose)
 * if required use of Mongo-MapReduce for heavy compuation over the period of time.
 * Make address as different document and embed it in Product document as they are co-related / dependent.
 
