@@ -26,6 +26,7 @@
     * go to http://localhost:8080/graphiql  <br />
   * **Heroku:**
     *  https://blooming-oasis-64276.herokuapp.com/graphiql
+    *  Heroku mLab Mongo has been used everywhere. I think I opted out for free tier, so it doesnt allow me to rename db name.
 
 #### Code coverage :
 * Approximately more than 90% code has been covered.
