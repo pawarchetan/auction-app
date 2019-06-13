@@ -1,6 +1,15 @@
 spring:
   data:
     mongodb:
-      database: auction-app
-      host: localhost
-      port: 27017
+      database: heroku_t9wlz0xz
+      host: ds237357.mlab.com
+      port: 37357
+      username: test
+      password: 1password
+graphql:
+  servlet:
+    mapping: /graphql
+    enabled: true
+    corsEnabled: true
+server:
+  port: ${PORT}
