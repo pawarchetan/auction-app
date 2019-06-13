@@ -17,15 +17,15 @@
 * IDE used --> IntelliJ
 
 #### How to run :
- **Local (without docker) :**
-  * go to project directory and run `./gradlew bootRun`
-  * Access the URL : http://localhost:8080/graphiql and run queries/mutations.
- **Local (with Docker) :**
- * go to project directory and run `docker build -t test-deepintent .`
- * run `docker run test-deepintent`
- * http://localhost:8080/graphiql 
- **Heroku :**
- https://blooming-oasis-64276.herokuapp.com/graphiql
+  * **Local (without docker) :**
+    * go to project directory and run `./gradlew bootRun`
+    * Access the URL : http://localhost:8080/graphiql and run queries/mutations.<br />
+  * **Local (with Docker) :**
+    * go to project directory and run `docker build -t test-deepintent .`
+    * run `docker run test-deepintent`
+    * go to http://localhost:8080/graphiql  <br />
+  * **Heroku:**
+    *  https://blooming-oasis-64276.herokuapp.com/graphiql
 
 #### Code coverage :
 * Approximately more than 90% code has been covered.
@@ -41,7 +41,8 @@
 * If any higher amount bid exist, current bid will not go through. In that case service will respond with message `Higher amount bid exist, please increase your bid amount".`
 * If any bid is matching target price of auction and no other bid has met the reserve price of the auction, then winning bid will pay the
  bid amount.
-* If any bid is matching target price of auction and there are bids who has already met reserve price of the auction, then `higher price bid will win at second price auction.`
+* If any bid is matching target price of auction and there are bids who has already met reserve price of the auction, then `higher price 
+bid will win at second price auction` , winner will pay `0.01 $ extra on top of second price auction` . You can confirm the price in Bid response.
 
 #### Implementation details :
 
